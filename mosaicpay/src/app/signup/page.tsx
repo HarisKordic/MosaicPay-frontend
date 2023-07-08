@@ -215,7 +215,7 @@ export default function Signup() {
 					</Link>
 				</Box>
 				<Button
-					sx={{ width: "50%", mr: "auto", ml: "auto" , mt:5}}
+					sx={{ width: "50%", mr: "auto", ml: "auto", mt: 5 }}
 					variant="contained"
 					type="submit"
 					color="secondary"
