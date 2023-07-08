@@ -8,15 +8,20 @@ import {
 	Typography,
 	FormControl,
 	FormHelperText,
+	InputAdornment,
+	IconButton,
 } from "@mui/material";
 import Image from "next/image";
 import * as Yup from "yup";
+import { VisibilityOff, Visibility } from "@mui/icons-material";
 
 export default function Signup() {
 	const [email, setEmail] = useState("");
 	const [password, setPassword] = useState("");
 	const [passwordRepeat, setPasswordRepeat] = useState("");
 	const [validationErrors, setValidationErrors] = useState(Object);
+	const [showPassword, setShowPassword] = useState(false);
+	const [showPasswordRepeat, setShowPasswordRepeat] = useState(false);
 
 	const handleEmailChange = (event: any) => {
 		setEmail(event.target.value);
@@ -28,6 +33,14 @@ export default function Signup() {
 
 	const handlePasswordRepeatChange = (event: any) => {
 		setPasswordRepeat(event.target.value);
+	};
+
+	const handleShowPassword = () => {
+		setShowPassword((prevShowPassword) => !prevShowPassword);
+	};
+
+	const handleShowPasswordRepeat = () => {
+		setShowPasswordRepeat((prevShowPasswordRepeat) => !prevShowPasswordRepeat);
 	};
 
 	const validateForm = async () => {
@@ -130,11 +143,22 @@ export default function Signup() {
 					value={password}
 					onChange={handlePasswordChange}
 					color="secondary"
+					type={showPassword ? "text" : "password"}
 					error={!!validationErrors.password} // Mark as error if validation error exists
+					InputProps={{
+						endAdornment: (
+							<InputAdornment position="end">
+								<IconButton onClick={handleShowPassword}>
+									{showPassword ? <VisibilityOff /> : <Visibility />}
+								</IconButton>
+							</InputAdornment>
+						),
+					}}
 				/>
 				{validationErrors.password && (
 					<FormHelperText>{validationErrors.password}</FormHelperText>
 				)}
+
 				<TextField
 					id="password-repeat"
 					name="passwordRepeat"
@@ -143,12 +167,21 @@ export default function Signup() {
 					value={passwordRepeat}
 					onChange={handlePasswordRepeatChange}
 					color="secondary"
+					type={showPasswordRepeat ? "text" : "password"}
 					error={!!validationErrors.passwordRepeat} // Mark as error if validation error exists
+					InputProps={{
+						endAdornment: (
+							<InputAdornment position="end">
+								<IconButton onClick={handleShowPasswordRepeat}>
+									{showPasswordRepeat ? <VisibilityOff /> : <Visibility />}
+								</IconButton>
+							</InputAdornment>
+						),
+					}}
 				/>
 				{validationErrors.passwordRepeat && (
 					<FormHelperText>{validationErrors.passwordRepeat}</FormHelperText>
 				)}
-
 				<Button
 					sx={{ width: "50%", mr: "auto", ml: "auto" }}
 					variant="contained"
