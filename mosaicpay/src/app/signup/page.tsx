@@ -1,5 +1,6 @@
 "use client";
-import React, { useState } from "react";
+import { useRouter } from "next/navigation";
+import { useState } from "react";
 import Box from "@mui/material/Box";
 import TextField from "@mui/material/TextField";
 import {
@@ -14,6 +15,9 @@ import {
 import Image from "next/image";
 import * as Yup from "yup";
 import { VisibilityOff, Visibility } from "@mui/icons-material";
+import { dtoRegister } from "../dtos/dtoRegistser";
+import { register } from "../api";
+import Alert from "@mui/material/Alert";
 
 export default function Signup() {
 	const [email, setEmail] = useState("");
@@ -22,7 +26,8 @@ export default function Signup() {
 	const [validationErrors, setValidationErrors] = useState(Object);
 	const [showPassword, setShowPassword] = useState(false);
 	const [showPasswordRepeat, setShowPasswordRepeat] = useState(false);
-
+	const [showAlert, setShowAlert] = useState(false);
+	const router = useRouter();
 	const handleEmailChange = (event: any) => {
 		setEmail(event.target.value);
 	};
@@ -71,11 +76,25 @@ export default function Signup() {
 			return false;
 		}
 	};
-
+	const serverErrorMessage =
+		"User with the same email already exists! Please, try another email.";
 	const handleSubmit = async (event: any) => {
 		event.preventDefault();
 		if (await validateForm()) {
-			console.log("Form submitted successfully");
+			const registration: dtoRegister = {
+				email: email,
+				password: password,
+			};
+
+			try {
+				const result = await register(registration);
+				if (!result) {
+				} else {
+					router.push("/login");
+				}
+			} catch (error) {
+				setShowAlert(true);
+			}
 		}
 	};
 
@@ -129,7 +148,7 @@ export default function Signup() {
 					value={email}
 					onChange={handleEmailChange}
 					color="secondary"
-					error={!!validationErrors.email} // Mark as error if validation error exists
+					error={!!validationErrors.email}
 				/>
 				{validationErrors.email && (
 					<FormHelperText>{validationErrors.email}</FormHelperText>
@@ -144,7 +163,7 @@ export default function Signup() {
 					onChange={handlePasswordChange}
 					color="secondary"
 					type={showPassword ? "text" : "password"}
-					error={!!validationErrors.password} // Mark as error if validation error exists
+					error={!!validationErrors.password}
 					InputProps={{
 						endAdornment: (
 							<InputAdornment position="end">
@@ -168,7 +187,7 @@ export default function Signup() {
 					onChange={handlePasswordRepeatChange}
 					color="secondary"
 					type={showPasswordRepeat ? "text" : "password"}
-					error={!!validationErrors.passwordRepeat} // Mark as error if validation error exists
+					error={!!validationErrors.passwordRepeat}
 					InputProps={{
 						endAdornment: (
 							<InputAdornment position="end">
@@ -192,6 +211,22 @@ export default function Signup() {
 					Sign up
 				</Button>
 			</Grid>
+			<Alert
+				sx={{ mt: 5, display: showAlert ? "flex" : "none" }}
+				action={
+					<Button
+						color="error"
+						size="small"
+						onClick={() => setShowAlert(false)}
+					>
+						X
+					</Button>
+				}
+				onClose={() => setShowAlert(false)}
+				severity="error"
+			>
+				{serverErrorMessage}
+			</Alert>
 		</FormControl>
 	);
 }
