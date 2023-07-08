@@ -18,6 +18,7 @@ import { VisibilityOff, Visibility } from "@mui/icons-material";
 import { login, register } from "../api";
 import Alert from "@mui/material/Alert";
 import { dtoLogin } from "../dtos/dtoLogin";
+import Link from "next/link";
 
 export default function Login() {
 	const [email, setEmail] = useState("");
@@ -155,9 +156,20 @@ export default function Login() {
 				{validationErrors.password && (
 					<FormHelperText>{validationErrors.password}</FormHelperText>
 				)}
-
+				<Box
+					sx={{ mt: 1, ml: 1, width: "100%" }}
+					display={"flex"}
+					justifyContent={"flex-start"}
+					flexWrap={"wrap"}
+					flexDirection={"column"}
+				>
+					<Typography component="p">Don't have an account? </Typography>
+					<Link href={"/signup"} onClick={() => router.push("/signup")}>
+						Sign up
+					</Link>
+				</Box>
 				<Button
-					sx={{ width: "50%", mr: "auto", ml: "auto" }}
+					sx={{ width: "50%", mr: "auto", ml: "auto", mt: 5 }}
 					variant="contained"
 					type="submit"
 					color="secondary"
