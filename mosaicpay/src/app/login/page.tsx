@@ -69,6 +69,7 @@ export default function Login() {
 
 			try {
 				const result = await login(registration);
+				console.log(document.cookie);
 			} catch (error: any) {
 				setServerErrorMessage(error.response.data);
 				setShowAlert(true);
