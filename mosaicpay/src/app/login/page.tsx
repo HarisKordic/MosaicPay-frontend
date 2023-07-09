@@ -27,6 +27,7 @@ export default function Login() {
 	const [showPassword, setShowPassword] = useState(false);
 	const [showAlert, setShowAlert] = useState(false);
 	const router = useRouter();
+	const { document } = window;
 	const [serverErrorMessage, setServerErrorMessage] = useState("");
 	const handleEmailChange = (event: any) => {
 		setEmail(event.target.value);
@@ -70,7 +71,8 @@ export default function Login() {
 
 			try {
 				const result = await login(registration);
-				console.log(document.cookie);
+				document.cookie = `token=${result.token}; path=/`;
+				router.push("/home");
 			} catch (error: any) {
 				setServerErrorMessage(error.response.data);
 				setShowAlert(true);
