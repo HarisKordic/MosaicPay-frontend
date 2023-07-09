@@ -16,7 +16,7 @@ const bull = (
 );
 
 interface IAccountInfoCardProps {
-	balance: number;
+	balance: string;
 	date: string;
 }
 export default function AccountInfoCard(props: IAccountInfoCardProps) {

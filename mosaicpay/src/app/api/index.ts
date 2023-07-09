@@ -17,9 +17,24 @@ export const getUserAccounts = () =>
 		.get(`${rootRoute}account/`, { withCredentials: true })
 		.then((res) => res.data);
 
+export const getAccount = (accountId: number) =>
+	axios
+		.get(`${rootRoute}account/${accountId}`, { withCredentials: true })
+		.then((res) => res.data);
+
 export const postNewAccount = (dtoAccount: dtoAccount) =>
 	axios
 		.post(`${rootRoute}account/`, dtoAccount, { withCredentials: true })
+		.then((res) => res.data);
+
+export const putNewAccount = (
+	accountId: number,
+	dtoAccountUpdate: dtoAccountUpdate
+) =>
+	axios
+		.put(`${rootRoute}account/${accountId}/`, dtoAccountUpdate, {
+			withCredentials: true,
+		})
 		.then((res) => res.data);
 
 export const getUser = () =>
