@@ -48,3 +48,7 @@ export const postNewTransaction = (dtoTransaction: dtoTransaction) =>
 			withCredentials: true,
 		})
 		.then((res: any) => res.data);
+export const deleteAccount = (accountId: string | string[] | undefined) =>
+	axios
+		.delete(`${rootRoute}account/${accountId}/`, { withCredentials: true })
+		.then((res) => res.data);

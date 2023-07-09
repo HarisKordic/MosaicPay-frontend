@@ -9,10 +9,15 @@ import {
 	TextField,
 	Typography,
 } from "@mui/material";
-import { Cancel, Save, Upload } from "@mui/icons-material";
+import { Cancel, Delete, Garage, Save, Upload } from "@mui/icons-material";
 import { useEffect, useState } from "react";
 import * as yup from "yup";
-import { getAccount, getUser, putNewAccount } from "../../src/app/api";
+import {
+	deleteAccount,
+	getAccount,
+	getUser,
+	putNewAccount,
+} from "../../src/app/api";
 import { useRouter } from "next/router";
 import AccountInfoCard from "@/app/components/AccountInfoCard";
 
@@ -24,6 +29,7 @@ export default function NewAccount() {
 	const [balance, setBalance] = useState("");
 	const [validationErrors, setValidationErrors] = useState(Object);
 	const [showAlert, setShowAlert] = useState(false);
+	const [alertMessage, setAlertMessage] = useState("");
 
 	const getAccountData = async () => {
 		//@ts-ignore
@@ -36,7 +42,9 @@ export default function NewAccount() {
 			if (accountId) data = await getAccountData();
 			setAccountName(data?.name);
 			setBalance(data?.balance.toString());
-		} catch (error) {}
+		} catch (error) {
+			router.push("/404");
+		}
 	};
 
 	useEffect(() => {
@@ -84,7 +92,6 @@ export default function NewAccount() {
 			return false;
 		}
 	};
-
 	const handleSubmit = async (event: any) => {
 		event.preventDefault();
 		if (await validateForm()) {
@@ -97,10 +104,19 @@ export default function NewAccount() {
 				//@ts-ignore
 				await putNewAccount(Number.parseInt(accountId), account);
 				setShowAlert(true);
+				setAlertMessage("Account successfuly updated!");
 				setStates();
 				return;
 			} catch (error) {}
 		}
+	};
+
+	const handleDelete = async () => {
+		try {
+			await deleteAccount(accountId);
+			setShowAlert(true);
+			setAlertMessage("Account is successfuly deleted!");
+		} catch (error) {}
 	};
 
 	const fileData = {
@@ -177,6 +193,22 @@ export default function NewAccount() {
 					</Typography>
 					<Upload fontSize="large" color="secondary"></Upload>
 				</Box>
+				<Alert
+					sx={{ mt: 5, display: showAlert ? "flex" : "none" }}
+					action={
+						<Button
+							color="success"
+							size="small"
+							onClick={() => setShowAlert(false)}
+						>
+							X
+						</Button>
+					}
+					onClose={() => setShowAlert(false)}
+					severity="success"
+				>
+					{alertMessage}
+				</Alert>
 				<Box display={"flex"} justifyContent={"space-between"} sx={{ mt: 10 }}>
 					<Button
 						startIcon={<Save></Save>}
@@ -187,31 +219,15 @@ export default function NewAccount() {
 						Save
 					</Button>
 					<Button
-						startIcon={<Cancel></Cancel>}
+						startIcon={<Delete></Delete>}
 						color="secondary"
 						variant="outlined"
-						onClick={() => router.push("/home")}
+						onClick={() => handleDelete()}
 					>
-						Cancel
+						Delete
 					</Button>
 				</Box>
 			</Box>
-			<Alert
-				sx={{ mt: 5, display: showAlert ? "flex" : "none" }}
-				action={
-					<Button
-						color="success"
-						size="small"
-						onClick={() => setShowAlert(false)}
-					>
-						X
-					</Button>
-				}
-				onClose={() => setShowAlert(false)}
-				severity="success"
-			>
-				Account successfuly updated!
-			</Alert>
 		</Grid>
 	);
 }
