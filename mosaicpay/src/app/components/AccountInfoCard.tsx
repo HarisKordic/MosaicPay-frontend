@@ -15,23 +15,25 @@ const bull = (
 	</Box>
 );
 
-export default function BasicCard() {
+interface IAccountInfoCardProps {
+	balance: number;
+	date: string;
+}
+export default function AccountInfoCard(props: IAccountInfoCardProps) {
 	return (
 		<Card elevation={14}>
 			<CardContent>
-				<Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
-					Word of the Day
+				<Typography
+					sx={{ fontSize: 14, mb: 2, textAlign: "center" }}
+					color="text.secondary"
+				>
+					Balance
 				</Typography>
-				<Typography variant="h5" component="div">
-					be{bull}nev{bull}o{bull}lent
+				<Typography sx={{ mb: 4 }} variant="h5" component="div">
+					{props.balance || "no current information" + " $"}
 				</Typography>
 				<Typography sx={{ mb: 1.5 }} color="text.secondary">
-					adjective
-				</Typography>
-				<Typography variant="body2">
-					well meaning and kindly.
-					<br />
-					{'"a benevolent smile"'}
+					{props.date || "no date information"}
 				</Typography>
 			</CardContent>
 		</Card>
