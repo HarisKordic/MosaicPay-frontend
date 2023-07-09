@@ -24,7 +24,8 @@ export default function AccountInfoCard(props: IAccountInfoCardProps) {
 		<Card elevation={14}>
 			<CardContent>
 				<Typography
-					sx={{ fontSize: 14, mb: 2, textAlign: "center" }}
+					fontWeight={"bold"}
+					sx={{ fontSize: 16, mb: 2, textAlign: "center" }}
 					color="text.secondary"
 				>
 					Balance
