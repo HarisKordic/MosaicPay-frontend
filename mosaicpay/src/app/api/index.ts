@@ -11,3 +11,8 @@ export const register = (dtoRegister: dtoRegister) =>
 
 export const login = (dtoLogin: dtoLogin) =>
 	axios.post(`${rootRoute}auth/login`, dtoLogin).then((res) => res.data);
+
+export const getUserAccounts = async () =>
+	await axios
+		.get(`${rootRoute}account/`, { withCredentials: true })
+		.then((res) => res.data);

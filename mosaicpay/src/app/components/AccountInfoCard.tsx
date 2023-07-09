@@ -30,7 +30,7 @@ export default function AccountInfoCard(props: IAccountInfoCardProps) {
 					Balance
 				</Typography>
 				<Typography sx={{ mb: 4 }} variant="h5" component="div">
-					{props.balance || "no current information" + " $"}
+					{props.balance || "no current information"} {" $"}
 				</Typography>
 				<Typography sx={{ mb: 1.5 }} color="text.secondary">
 					{props.date || "no date information"}

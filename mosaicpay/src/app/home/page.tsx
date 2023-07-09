@@ -1,8 +1,23 @@
 "use client";
 import { Box, Grid, Paper, SvgIcon, Typography } from "@mui/material";
 import AccountInfoCard from "../components/AccountInfoCard";
+import { useRouter } from "next/navigation";
+import { getUserAccounts } from "../api";
+import { useEffect, useState } from "react";
 
 export default function Home() {
+	const router = useRouter();
+	const [lastAccoundAdded, setLastAccountAdded] = useState(Object);
+
+	let data;
+	const getData = async () => {
+		data = await getUserAccounts();
+		setLastAccountAdded(data[data.length - 1]);
+	};
+	useEffect(() => {
+		getData();
+	}, [data]);
+
 	return (
 		<Grid
 			display={"flex"}
@@ -22,7 +37,10 @@ export default function Home() {
 				</Typography>
 			</Box>
 			<Box sx={{ mb: 5 }}>
-				<AccountInfoCard></AccountInfoCard>
+				<AccountInfoCard
+					balance={lastAccoundAdded?.balance}
+					date={new Date().toDateString()}
+				></AccountInfoCard>
 			</Box>
 			<Box
 				sx={{
@@ -48,6 +66,7 @@ export default function Home() {
 								display={"flex"}
 								flexDirection={"row"}
 								justifyContent={"space-around"}
+								onClick={() => router.push("/")}
 							>
 								<SvgIcon color="secondary" sx={{ fontSize: 60 }}>
 									<svg
