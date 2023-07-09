@@ -12,12 +12,7 @@ import {
 import { Cancel, Delete, Garage, Save, Upload } from "@mui/icons-material";
 import { useEffect, useState } from "react";
 import * as yup from "yup";
-import {
-	deleteAccount,
-	getAccount,
-	getUser,
-	putNewAccount,
-} from "../../src/app/api";
+import { deleteAccount, getAccount, getUser } from "../../src/app/api";
 import { useRouter } from "next/router";
 import AccountInfoCard from "@/app/components/AccountInfoCard";
 

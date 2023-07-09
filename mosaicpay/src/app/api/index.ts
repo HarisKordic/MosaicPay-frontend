@@ -27,7 +27,7 @@ export const postNewAccount = (dtoAccount: dtoAccount) =>
 		.post(`${rootRoute}account/`, dtoAccount, { withCredentials: true })
 		.then((res) => res.data);
 
-export const putNewAccount = (
+export const putAccount = (
 	accountId: number,
 	dtoAccountUpdate: dtoAccountUpdate
 ) =>
@@ -51,4 +51,26 @@ export const postNewTransaction = (dtoTransaction: dtoTransaction) =>
 export const deleteAccount = (accountId: string | string[] | undefined) =>
 	axios
 		.delete(`${rootRoute}account/${accountId}/`, { withCredentials: true })
+		.then((res) => res.data);
+
+export const putTransaction = (
+	transactionId: string | string[] | undefined,
+	dtoTransactionUpdate: dtoTransactionUpdate
+) =>
+	axios
+		.put(`${rootRoute}transaction/${transactionId}/`, dtoTransactionUpdate, {
+			withCredentials: true,
+		})
+		.then((res) => res.data);
+export const getTransaction = (transactionId: string | string[] | undefined) =>
+	axios
+		.get(`${rootRoute}transaction/${transactionId}`, { withCredentials: true })
+		.then((res) => res.data);
+export const deleteTransaction = (
+	transactionId: string | string[] | undefined
+) =>
+	axios
+		.delete(`${rootRoute}transaction/${transactionId}/`, {
+			withCredentials: true,
+		})
 		.then((res) => res.data);
