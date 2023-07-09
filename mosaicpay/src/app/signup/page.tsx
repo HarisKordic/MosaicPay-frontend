@@ -100,130 +100,128 @@ export default function Signup() {
 	};
 
 	return (
-		<FormControl component="form" onSubmit={handleSubmit} error>
-			<Grid
+		<Grid
+			sx={{
+				"& .MuiTextField-root": {
+					m: 1.5,
+					width: "auto",
+					height: "100%",
+					p: 0.5,
+				},
+			}}
+			display={"flex"}
+			justifyContent={"center"}
+			flexDirection={"column"}
+			flexWrap={"wrap"}
+		>
+			<Box
 				sx={{
-					"& .MuiTextField-root": {
-						m: 1,
-						width: "auto",
-						height: "100%",
-						p: 0.5,
-					},
+					display: "flex",
+					justifyContent: "center",
+					borderRadius: "80%",
+					overflow: "hidden",
+					width: "400px",
+					height: "200px",
+					margin: "0 auto",
+					mt: 2,
 				}}
-				display={"flex"}
-				justifyContent={"center"}
-				flexDirection={"column"}
-				flexWrap={"wrap"}
 			>
-				<Box
-					sx={{
-						display: "flex",
-						justifyContent: "center",
-						borderRadius: "80%",
-						overflow: "hidden",
-						width: "400px",
-						height: "200px",
-						margin: "0 auto",
-						mt: 2,
-					}}
-				>
-					<Image
-						src="/images/MosaicPay_logo.png"
-						alt="Logo"
-						width={200}
-						height={200}
-					/>
-				</Box>
-				<Box display={"flex"} justifyContent={"center"} sx={{ mt: 2 }}>
-					<Typography variant="h5" component="h5">
-						Sign up
-					</Typography>
-				</Box>
-
-				<TextField
-					id="email"
-					name="email"
-					label="Email"
-					placeholder="email@example.com"
-					variant="outlined"
-					value={email}
-					onChange={handleEmailChange}
-					color="secondary"
-					error={!!validationErrors.email}
+				<Image
+					src="/images/MosaicPay_logo.png"
+					alt="Logo"
+					width={200}
+					height={200}
 				/>
-				{validationErrors.email && (
-					<FormHelperText>{validationErrors.email}</FormHelperText>
-				)}
-				<TextField
-					id="password"
-					name="password"
-					label="Password"
-					helperText="* Password should be at least 8 characters long. Use numbers, letters, special characters and capitals."
-					variant="outlined"
-					value={password}
-					onChange={handlePasswordChange}
-					color="secondary"
-					type={showPassword ? "text" : "password"}
-					error={!!validationErrors.password}
-					InputProps={{
-						endAdornment: (
-							<InputAdornment position="end">
-								<IconButton onClick={handleShowPassword}>
-									{showPassword ? <VisibilityOff /> : <Visibility />}
-								</IconButton>
-							</InputAdornment>
-						),
-					}}
-				/>
-				{validationErrors.password && (
-					<FormHelperText>{validationErrors.password}</FormHelperText>
-				)}
-
-				<TextField
-					id="password-repeat"
-					name="passwordRepeat"
-					label="Repeat password"
-					variant="outlined"
-					value={passwordRepeat}
-					onChange={handlePasswordRepeatChange}
-					color="secondary"
-					type={showPasswordRepeat ? "text" : "password"}
-					error={!!validationErrors.passwordRepeat}
-					InputProps={{
-						endAdornment: (
-							<InputAdornment position="end">
-								<IconButton onClick={handleShowPasswordRepeat}>
-									{showPasswordRepeat ? <VisibilityOff /> : <Visibility />}
-								</IconButton>
-							</InputAdornment>
-						),
-					}}
-				/>
-				{validationErrors.passwordRepeat && (
-					<FormHelperText>{validationErrors.passwordRepeat}</FormHelperText>
-				)}
-				<Box
-					sx={{ mt: 1, ml: 1, width: "100%" }}
-					display={"flex"}
-					justifyContent={"flex-start"}
-					flexWrap={"wrap"}
-					flexDirection={"column"}
-				>
-					<Typography component="p">Already have an account? </Typography>
-					<Link href={"/login"} onClick={() => router.push("/login")}>
-						Login
-					</Link>
-				</Box>
-				<Button
-					sx={{ width: "50%", mr: "auto", ml: "auto", mt: 5 }}
-					variant="contained"
-					type="submit"
-					color="secondary"
-					onClick={handleSubmit}
-				>
+			</Box>
+			<Box display={"flex"} justifyContent={"center"} sx={{ mt: 2 }}>
+				<Typography variant="h5" component="h5">
 					Sign up
-				</Button>
-			</Grid>
+				</Typography>
+			</Box>
+
+			<TextField
+				id="email"
+				name="email"
+				label="Email"
+				placeholder="email@example.com"
+				variant="outlined"
+				value={email}
+				onChange={handleEmailChange}
+				color="secondary"
+				error={!!validationErrors.email}
+			/>
+			{validationErrors.email && (
+				<FormHelperText>{validationErrors.email}</FormHelperText>
+			)}
+			<TextField
+				id="password"
+				name="password"
+				label="Password"
+				helperText="* Password should be at least 8 characters long. Use numbers, letters, special characters and capitals."
+				variant="outlined"
+				value={password}
+				onChange={handlePasswordChange}
+				color="secondary"
+				type={showPassword ? "text" : "password"}
+				error={!!validationErrors.password}
+				InputProps={{
+					endAdornment: (
+						<InputAdornment position="end">
+							<IconButton onClick={handleShowPassword}>
+								{showPassword ? <VisibilityOff /> : <Visibility />}
+							</IconButton>
+						</InputAdornment>
+					),
+				}}
+			/>
+			{validationErrors.password && (
+				<FormHelperText>{validationErrors.password}</FormHelperText>
+			)}
+
+			<TextField
+				id="password-repeat"
+				name="passwordRepeat"
+				label="Repeat password"
+				variant="outlined"
+				value={passwordRepeat}
+				onChange={handlePasswordRepeatChange}
+				color="secondary"
+				type={showPasswordRepeat ? "text" : "password"}
+				error={!!validationErrors.passwordRepeat}
+				InputProps={{
+					endAdornment: (
+						<InputAdornment position="end">
+							<IconButton onClick={handleShowPasswordRepeat}>
+								{showPasswordRepeat ? <VisibilityOff /> : <Visibility />}
+							</IconButton>
+						</InputAdornment>
+					),
+				}}
+			/>
+			{validationErrors.passwordRepeat && (
+				<FormHelperText>{validationErrors.passwordRepeat}</FormHelperText>
+			)}
+			<Box
+				sx={{ mt: 1, ml: 1, width: "100%" }}
+				display={"flex"}
+				justifyContent={"flex-start"}
+				flexWrap={"wrap"}
+				flexDirection={"column"}
+			>
+				<Typography component="p">Already have an account? </Typography>
+				<Link href={"/login"} onClick={() => router.push("/login")}>
+					Login
+				</Link>
+			</Box>
+			<Button
+				sx={{ width: "50%", mr: "auto", ml: "auto", mt: 5 }}
+				variant="contained"
+				type="submit"
+				color="secondary"
+				onClick={handleSubmit}
+			>
+				Sign up
+			</Button>
 			<Alert
 				sx={{ mt: 5, display: showAlert ? "flex" : "none" }}
 				action={
@@ -240,6 +238,6 @@ export default function Signup() {
 			>
 				{serverErrorMessage}
 			</Alert>
-		</FormControl>
+		</Grid>
 	);
 }

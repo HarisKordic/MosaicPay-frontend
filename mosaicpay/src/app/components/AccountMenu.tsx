@@ -10,15 +10,23 @@ import Typography from "@mui/material/Typography";
 import Tooltip from "@mui/material/Tooltip";
 import Logout from "@mui/icons-material/Logout";
 import { Grid } from "@mui/material";
+import { logout } from "../api";
+import { useRouter } from "next/navigation";
 
 export default function AccountMenu() {
 	const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
 	const open = Boolean(anchorEl);
+	const router = useRouter();
 	const handleClick = (event: React.MouseEvent<HTMLElement>) => {
 		setAnchorEl(event.currentTarget);
 	};
 	const handleClose = () => {
 		setAnchorEl(null);
+	};
+	const handleLogout = async () => {
+		console.log(window.document.cookie);
+		const res = await logout();
+		if (res === "Logout successfull!") router.push("/login");
 	};
 	return (
 		<Grid
@@ -66,7 +74,12 @@ export default function AccountMenu() {
 					<Avatar /> Profile
 				</MenuItem>
 				<Divider />
-				<MenuItem onClick={handleClose}>
+				<MenuItem
+					onClick={() => {
+						handleClose();
+						handleLogout();
+					}}
+				>
 					<ListItemIcon>
 						<Logout fontSize="small" />
 					</ListItemIcon>
