@@ -26,3 +26,10 @@ export const getUser = () =>
 	axios
 		.get(`${rootRoute}auth/get-user`, { withCredentials: true })
 		.then((res) => res.data);
+
+export const postNewTransaction = (dtoTransaction: dtoTransaction) =>
+	axios
+		.post(`${rootRoute}transaction/`, dtoTransaction, {
+			withCredentials: true,
+		})
+		.then((res: any) => res.data);

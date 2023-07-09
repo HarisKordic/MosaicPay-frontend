@@ -11,11 +11,12 @@ import {
 	Radio,
 	RadioGroup,
 	Select,
+	Slider,
 	Typography,
 } from "@mui/material";
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
-import { getUserAccounts } from "../api";
+import { getUserAccounts, postNewTransaction } from "../api";
 import { Cancel, Save } from "@mui/icons-material";
 
 export default function NewTransaction() {
@@ -23,6 +24,7 @@ export default function NewTransaction() {
 	const [transactionState, setTransactionState] = useState(1);
 	const [accountState, setAccountState] = useState([]);
 	const [selectedAccount, setSelectedAccount] = useState("");
+	const [amountState, setAmountState] = useState(1000);
 
 	const [transactionType, setTransactionType] = useState("d");
 	const router = useRouter();
@@ -44,11 +46,25 @@ export default function NewTransaction() {
 	}, []);
 
 	const handleSubmit = async () => {
-		// Handle form submission
+		try {
+			const transaction: dtoTransaction = {
+				type: transactionType,
+				amount: amountState,
+				account: Number.parseInt(selectedAccount),
+				transaction_state: transactionState,
+			};
+			await postNewTransaction(transaction);
+
+			setShowAlert(true);
+
+			setTimeout(() => {
+				router.push("/home");
+			}, 2000);
+		} catch (error) {}
 	};
 
 	const handleAccountChange = (event: any) => {
-		setSelectedAccount(event.target.value); 
+		setSelectedAccount(event.target.value);
 	};
 
 	return (
@@ -58,7 +74,7 @@ export default function NewTransaction() {
 			width="100%"
 			height="100%"
 			justifyContent="center"
-			padding={5} 
+			padding={5}
 		>
 			<Box>
 				<Typography variant="h4" component="h4" sx={{ textAlign: "center" }}>
@@ -88,6 +104,18 @@ export default function NewTransaction() {
 							color="secondary"
 						/>
 					</RadioGroup>
+				</Box>
+				<Box mt={3}>
+					<InputLabel>Amount</InputLabel>
+					<Slider
+						max={10000}
+						size="medium"
+						defaultValue={1000}
+						aria-label="Medium"
+						valueLabelDisplay="auto"
+						color="secondary"
+						onChange={(e: any) => setAmountState(e.target.value)}
+					/>
 				</Box>
 				<Box mt={3}>
 					<InputLabel id="account-state-simple-select-label">
