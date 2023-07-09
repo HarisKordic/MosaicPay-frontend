@@ -1,6 +1,7 @@
 "use client";
 
 import {
+	Alert,
 	Box,
 	Button,
 	FormControl,
@@ -12,12 +13,14 @@ import { Cancel, Save, Upload } from "@mui/icons-material";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import * as yup from "yup";
+import { getUser, postNewAccount } from "../api";
 
 export default function NewAccount() {
 	const router = useRouter();
 	const [accountName, setAccountName] = useState("");
 	const [balance, setBalance] = useState("");
 	const [validationErrors, setValidationErrors] = useState(Object);
+	const [showAlert, setShowAlert] = useState(false);
 
 	const validationSchema = yup.object().shape({
 		accountName: yup
@@ -61,7 +64,20 @@ export default function NewAccount() {
 	const handleSubmit = async (event: any) => {
 		event.preventDefault();
 		if (await validateForm()) {
-			// Handle form submission logic here
+			try {
+				const user = await getUser();
+				let account: dtoAccount = {
+					name: accountName,
+					balance: Number.parseFloat(balance),
+					user: user?.user_id,
+				};
+				await postNewAccount(account);
+				setShowAlert(true);
+
+				setTimeout(() => {
+					router.push("/home");
+				}, 2000);
+			} catch (error) {}
 		}
 	};
 
@@ -153,6 +169,22 @@ export default function NewAccount() {
 						</Button>
 					</Box>
 				</Box>
+				<Alert
+					sx={{ mt: 5, display: showAlert ? "flex" : "none" }}
+					action={
+						<Button
+							color="success"
+							size="small"
+							onClick={() => setShowAlert(false)}
+						>
+							X
+						</Button>
+					}
+					onClose={() => setShowAlert(false)}
+					severity="success"
+				>
+					Account successfuly created!
+				</Alert>
 			</Grid>
 		</FormControl>
 	);

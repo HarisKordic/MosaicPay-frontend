@@ -12,7 +12,17 @@ export const register = (dtoRegister: dtoRegister) =>
 export const login = (dtoLogin: dtoLogin) =>
 	axios.post(`${rootRoute}auth/login`, dtoLogin).then((res) => res.data);
 
-export const getUserAccounts = async () =>
-	await axios
+export const getUserAccounts = () =>
+	axios
 		.get(`${rootRoute}account/`, { withCredentials: true })
+		.then((res) => res.data);
+
+export const postNewAccount = (dtoAccount: dtoAccount) =>
+	axios
+		.post(`${rootRoute}account/`, dtoAccount, { withCredentials: true })
+		.then((res) => res.data);
+
+export const getUser = () =>
+	axios
+		.get(`${rootRoute}auth/get-user`, { withCredentials: true })
 		.then((res) => res.data);
