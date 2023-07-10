@@ -6,17 +6,15 @@ import TextField from "@mui/material/TextField";
 import {
 	Button,
 	Grid,
-	Typography,
-	FormControl,
-	FormHelperText,
+	Typography, FormHelperText,
 	InputAdornment,
-	IconButton,
+	IconButton
 } from "@mui/material";
 import Image from "next/image";
 import * as Yup from "yup";
 import { VisibilityOff, Visibility } from "@mui/icons-material";
-import { dtoRegister } from "../dtos/dtoRegistser";
-import { register } from "../api";
+import { dtoRegister } from "../../src/app/dtos/dtoRegistser";
+import { register } from "../../src/app/api";
 import Alert from "@mui/material/Alert";
 import Link from "next/link";
 

@@ -7,7 +7,6 @@ import {
 	Button,
 	Grid,
 	Typography,
-	FormControl,
 	FormHelperText,
 	InputAdornment,
 	IconButton,
@@ -15,7 +14,7 @@ import {
 import Image from "next/image";
 import * as Yup from "yup";
 import { VisibilityOff, Visibility } from "@mui/icons-material";
-import { login, register } from "../api";
+import { login } from "../api";
 import Alert from "@mui/material/Alert";
 import { dtoLogin } from "../dtos/dtoLogin";
 import Link from "next/link";
