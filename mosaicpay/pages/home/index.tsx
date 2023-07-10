@@ -7,11 +7,11 @@ import {
 	SvgIcon,
 	Typography,
 } from "@mui/material";
-import AccountInfoCard from "../components/AccountInfoCard";
+import AccountInfoCard from "../../src/app/components/AccountInfoCard";
 import { useRouter } from "next/navigation";
-import { getUserAccounts } from "../api";
+import { getUserAccounts } from "../../src/app/api";
 import { useEffect, useState } from "react";
-import AccountMenu from "../components/AccountMenu";
+import AccountMenu from "../../src/app/components/AccountMenu";
 
 export default function Home() {
 	const router = useRouter();
@@ -78,7 +78,7 @@ export default function Home() {
 									display={"flex"}
 									flexDirection={"row"}
 									justifyContent={"space-around"}
-									onClick={() => router.push("/")}
+									onClick={() => router.push("/accounts-transactions")}
 								>
 									<SvgIcon color="secondary" sx={{ fontSize: 60 }}>
 										<svg
