@@ -140,7 +140,7 @@ export default function NewAccount() {
 							url="http://localhost:8000/media/storage/Portret_Info_Studio_01_Xoj6jmg.jpg"
 							userId="1"
 							accountId="1"
-							type="jpg"
+							type="pdf"
 						></Media>
 					</Box>
 					<Box
