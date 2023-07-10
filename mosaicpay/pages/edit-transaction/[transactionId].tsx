@@ -4,6 +4,7 @@ import {
 	Alert,
 	Box,
 	Button,
+	Container,
 	FormControlLabel,
 	Grid,
 	InputLabel,
@@ -24,6 +25,7 @@ import {
 	putTransaction,
 } from "../../src/app/api";
 import { Cancel, Delete, Save } from "@mui/icons-material";
+import AccountMenu from "@/app/components/AccountMenu";
 
 export default function EditTransaction() {
 	const [showAlert, setShowAlert] = useState(false);
@@ -100,131 +102,141 @@ export default function EditTransaction() {
 		} catch (error) {}
 	};
 	return (
-		<Grid
-			display="flex"
-			flexDirection="column"
-			width="100%"
-			height="100%"
-			justifyContent="center"
-			padding={1}
-		>
-			<Box>
-				<Typography variant="h4" component="h4" sx={{ textAlign: "center" }}>
-					Add transaction
-				</Typography>
+		<Container disableGutters>
+			<Box display={"flex"} justifyContent={"center"}>
+				<AccountMenu></AccountMenu>
 			</Box>
-			<Box width="100%" padding={2}>
-				<Box mt={3}>
-					<InputLabel id="transaction-state-simple-select-label">
-						Transaction type
-					</InputLabel>
-					<RadioGroup
-						aria-labelledby="transaction-type-radio-buttons-group-label"
-						value={transactionType}
-						name="transaction-type-radio-buttons-group"
-						onChange={(event) => setTransactionType(event.target.value)}
-					>
-						<FormControlLabel
-							value="D"
-							control={<Radio color="secondary" />}
-							label="Debit"
-						/>
-						<FormControlLabel
-							value="C"
-							control={<Radio color="secondary" />}
-							label="Credit"
-							color="secondary"
-						/>
-					</RadioGroup>
+			<Grid
+				display="flex"
+				flexDirection="column"
+				width="100%"
+				height="100%"
+				justifyContent="center"
+				padding={2}
+				mt={2}
+			>
+				<Box>
+					<Typography variant="h4" component="h4" sx={{ textAlign: "center" }}>
+						Edit transaction
+					</Typography>
 				</Box>
-				<Box mt={3}>
-					<InputLabel>Amount</InputLabel>
-					<Slider
-						max={10000}
-						size="medium"
-						defaultValue={1000}
-						aria-label="Medium"
-						valueLabelDisplay="auto"
-						color="secondary"
-						onChange={(e: any) => setAmountState(e.target.value)}
-					/>
-				</Box>
-				<Box mt={3}>
-					<InputLabel id="account-state-simple-select-label">
-						Account
-					</InputLabel>
-					<Select
-						fullWidth
-						labelId="account-state-select-label"
-						id="account-state-select"
-						name="account-state"
-						value={selectedAccount}
-						label="Account state"
-						onChange={handleAccountChange}
-						color="secondary"
-					>
-						{accountState.map((account: any) => (
-							<MenuItem value={account.value} key={account.value}>
-								{account.name}
-							</MenuItem>
-						))}
-					</Select>
-				</Box>
-				<Box mt={3}>
-					<InputLabel id="transaction-state-simple-select-label">
-						Transaction state
-					</InputLabel>
-					<Select
-						fullWidth
-						labelId="transaction-state-select-label"
-						id="transaction-state-select"
-						name="transaction-state"
-						value={transactionState}
-						label="Transaction state"
-						onChange={(e: any) => setTransactionState(e.target.value)}
-						color="secondary"
-					>
-						<MenuItem value={1}>Draft</MenuItem>
-						<MenuItem value={2}>Pending</MenuItem>
-						<MenuItem value={3}>Processed</MenuItem>
-						<MenuItem value={4}>Failed</MenuItem>
-					</Select>
-				</Box>
-				<Alert
-					sx={{ mt: 5, display: showAlert ? "flex" : "none" }}
-					action={
-						<Button
-							color="success"
-							size="small"
-							onClick={() => setShowAlert(false)}
+				<Box width="100%" padding={2}>
+					<Box mt={3}>
+						<InputLabel id="transaction-state-simple-select-label">
+							Transaction type
+						</InputLabel>
+						<RadioGroup
+							aria-labelledby="transaction-type-radio-buttons-group-label"
+							value={transactionType}
+							name="transaction-type-radio-buttons-group"
+							onChange={(event) => setTransactionType(event.target.value)}
 						>
-							X
+							<FormControlLabel
+								value="D"
+								control={<Radio color="secondary" />}
+								label="Debit"
+							/>
+							<FormControlLabel
+								value="C"
+								control={<Radio color="secondary" />}
+								label="Credit"
+								color="secondary"
+							/>
+						</RadioGroup>
+					</Box>
+					<Box mt={3}>
+						<InputLabel>Amount</InputLabel>
+						<Slider
+							max={10000}
+							size="medium"
+							defaultValue={1000}
+							aria-label="Medium"
+							valueLabelDisplay="auto"
+							color="secondary"
+							onChange={(e: any) => setAmountState(e.target.value)}
+						/>
+					</Box>
+					<Box mt={3}>
+						<InputLabel id="account-state-simple-select-label">
+							Account
+						</InputLabel>
+						<Select
+							fullWidth
+							labelId="account-state-select-label"
+							id="account-state-select"
+							name="account-state"
+							value={selectedAccount}
+							label="Account state"
+							onChange={handleAccountChange}
+							color="secondary"
+						>
+							{accountState.map((account: any) => (
+								<MenuItem value={account.value} key={account.value}>
+									{account.name}
+								</MenuItem>
+							))}
+						</Select>
+					</Box>
+					<Box mt={3}>
+						<InputLabel id="transaction-state-simple-select-label">
+							Transaction state
+						</InputLabel>
+						<Select
+							fullWidth
+							labelId="transaction-state-select-label"
+							id="transaction-state-select"
+							name="transaction-state"
+							value={transactionState}
+							label="Transaction state"
+							onChange={(e: any) => setTransactionState(e.target.value)}
+							color="secondary"
+						>
+							<MenuItem value={1}>Draft</MenuItem>
+							<MenuItem value={2}>Pending</MenuItem>
+							<MenuItem value={3}>Processed</MenuItem>
+							<MenuItem value={4}>Failed</MenuItem>
+						</Select>
+					</Box>
+					<Alert
+						sx={{ mt: 5, display: showAlert ? "flex" : "none" }}
+						action={
+							<Button
+								color="success"
+								size="small"
+								onClick={() => setShowAlert(false)}
+							>
+								X
+							</Button>
+						}
+						onClose={() => setShowAlert(false)}
+						severity="success"
+					>
+						{alertMessage}
+					</Alert>
+					<Box
+						display={"flex"}
+						justifyContent={"space-between"}
+						sx={{ mt: 10 }}
+					>
+						<Button
+							startIcon={<Save></Save>}
+							color="secondary"
+							variant="outlined"
+							onClick={handleSubmit}
+						>
+							Save
 						</Button>
-					}
-					onClose={() => setShowAlert(false)}
-					severity="success"
-				>
-					{alertMessage}
-				</Alert>
-				<Box display={"flex"} justifyContent={"space-between"} sx={{ mt: 10 }}>
-					<Button
-						startIcon={<Save></Save>}
-						color="secondary"
-						variant="outlined"
-						onClick={handleSubmit}
-					>
-						Save
-					</Button>
-					<Button
-						startIcon={<Delete></Delete>}
-						color="secondary"
-						variant="outlined"
-						onClick={() => handleDelete()}
-					>
-						Delete
-					</Button>
+						<Button
+							startIcon={<Delete></Delete>}
+							color="secondary"
+							variant="outlined"
+							onClick={() => handleDelete()}
+						>
+							Delete
+						</Button>
+					</Box>
 				</Box>
-			</Box>
-		</Grid>
+			</Grid>
+		</Container>
 	);
 }
