@@ -21,7 +21,7 @@ export default function MainCard(props: IProps) {
 	}
 
 	return (
-		<Card sx={{ maxWidth: 400, width: "100%" }}>
+		<Card sx={{ maxWidth: 400, width: "100%", mb: 3 }}>
 			<CardHeader
 				title={props.accountName || "Account name"}
 				subheader={props.transactionState || "Draft"}
