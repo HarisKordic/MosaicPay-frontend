@@ -21,7 +21,7 @@ interface IAccountInfoCardProps {
 }
 export default function AccountInfoCard(props: IAccountInfoCardProps) {
 	return (
-		<Card elevation={14}>
+		<Card elevation={14} sx={{ width: "100%" }}>
 			<CardContent>
 				<Typography
 					fontWeight={"bold"}

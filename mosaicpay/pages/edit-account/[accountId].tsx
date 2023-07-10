@@ -4,6 +4,7 @@ import {
 	Alert,
 	Box,
 	Button,
+	Container,
 	FormControl,
 	Grid,
 	TextField,
@@ -15,6 +16,7 @@ import * as yup from "yup";
 import { deleteAccount, getAccount, getUser } from "../../src/app/api";
 import { useRouter } from "next/router";
 import AccountInfoCard from "@/app/components/AccountInfoCard";
+import AccountMenu from "@/app/components/AccountMenu";
 
 export default function NewAccount() {
 	const router = useRouter();
@@ -119,110 +121,118 @@ export default function NewAccount() {
 	};
 
 	return (
-		<Grid
-			display="flex"
-			flexDirection="column"
-			width="100%"
-			height="100%"
-			justifyContent="center"
-			padding-top={5}
-		>
-			<Box
-				margin={2}
-				pb={3}
-				width={"100%"}
-				display={"flex"}
-				flexDirection={"row"}
-				justifyContent={"center"}
+		<Container disableGutters>
+			<Box mb={5} display={"flex"} justifyContent={"center"}>
+				<AccountMenu></AccountMenu>
+			</Box>
+			<Grid
+				display="flex"
+				flexDirection="column"
+				width="100%"
+				height="100%"
+				justifyContent="center"
 			>
-				<AccountInfoCard
-					balance={balance}
-					date={new Date().toDateString()}
-				></AccountInfoCard>
-			</Box>
-			<Box width="100%" padding={2}>
-				<TextField
-					sx={{ mb: 2 }}
-					fullWidth
-					id="account-name"
-					name="accountName"
-					label="Account name"
-					placeholder="Savings account"
-					variant="outlined"
-					color="secondary"
-					value={accountName}
-					onChange={(e: any) => {
-						handleAccountNameChange(e);
-					}}
-					error={!!validationErrors.accountName}
-					helperText={validationErrors.accountName}
-				/>
-
-				<TextField
-					sx={{ mb: 2 }}
-					fullWidth
-					id="balance"
-					name="balance"
-					placeholder="784578.45"
-					label="Balance"
-					variant="outlined"
-					color="secondary"
-					value={balance}
-					onChange={handleBalanceChange}
-					error={!!validationErrors.balance}
-					helperText={validationErrors.balance}
-				/>
-
-				<Box width={"100%"} sx={{ mt: 5 }}>
-					<img
-						width={"100%"}
-						height={"100%"}
-						src={`${fileData.img}`}
-						//alt={//fileData.title}
-						loading="lazy"
-					/>
-				</Box>
-				<Box display={"flex"} justifyContent={"space-between"} sx={{ mt: 5 }}>
-					<Typography variant="h6" component={"h6"}>
-						Upload/change file
-					</Typography>
-					<Upload fontSize="large" color="secondary"></Upload>
-				</Box>
-				<Alert
-					sx={{ mt: 5, display: showAlert ? "flex" : "none" }}
-					action={
-						<Button
-							color="success"
-							size="small"
-							onClick={() => setShowAlert(false)}
-						>
-							X
-						</Button>
-					}
-					onClose={() => setShowAlert(false)}
-					severity="success"
+				<Box
+					margin={2}
+					pb={3}
+					width={"100%"}
+					display={"flex"}
+					flexDirection={"row"}
+					justifyContent={"center"}
 				>
-					{alertMessage}
-				</Alert>
-				<Box display={"flex"} justifyContent={"space-between"} sx={{ mt: 10 }}>
-					<Button
-						startIcon={<Save></Save>}
-						color="secondary"
-						variant="outlined"
-						onClick={handleSubmit}
-					>
-						Save
-					</Button>
-					<Button
-						startIcon={<Delete></Delete>}
-						color="secondary"
-						variant="outlined"
-						onClick={() => handleDelete()}
-					>
-						Delete
-					</Button>
+					<AccountInfoCard
+						balance={balance}
+						date={new Date().toDateString()}
+					></AccountInfoCard>
 				</Box>
-			</Box>
-		</Grid>
+				<Box width="100%" padding={2}>
+					<TextField
+						sx={{ mb: 2 }}
+						fullWidth
+						id="account-name"
+						name="accountName"
+						label="Account name"
+						placeholder="Savings account"
+						variant="outlined"
+						color="secondary"
+						value={accountName}
+						onChange={(e: any) => {
+							handleAccountNameChange(e);
+						}}
+						error={!!validationErrors.accountName}
+						helperText={validationErrors.accountName}
+					/>
+
+					<TextField
+						sx={{ mb: 2 }}
+						fullWidth
+						id="balance"
+						name="balance"
+						placeholder="784578.45"
+						label="Balance"
+						variant="outlined"
+						color="secondary"
+						value={balance}
+						onChange={handleBalanceChange}
+						error={!!validationErrors.balance}
+						helperText={validationErrors.balance}
+					/>
+
+					<Box width={"100%"} sx={{ mt: 5 }}>
+						<img
+							width={"100%"}
+							height={"100%"}
+							src={`${fileData.img}`}
+							//alt={//fileData.title}
+							loading="lazy"
+						/>
+					</Box>
+					<Box display={"flex"} justifyContent={"space-between"} sx={{ mt: 5 }}>
+						<Typography variant="h6" component={"h6"}>
+							Upload/change file
+						</Typography>
+						<Upload fontSize="large" color="secondary"></Upload>
+					</Box>
+					<Alert
+						sx={{ mt: 5, display: showAlert ? "flex" : "none" }}
+						action={
+							<Button
+								color="success"
+								size="small"
+								onClick={() => setShowAlert(false)}
+							>
+								X
+							</Button>
+						}
+						onClose={() => setShowAlert(false)}
+						severity="success"
+					>
+						{alertMessage}
+					</Alert>
+					<Box
+						display={"flex"}
+						justifyContent={"space-between"}
+						sx={{ mt: 10 }}
+					>
+						<Button
+							startIcon={<Save></Save>}
+							color="secondary"
+							variant="outlined"
+							onClick={handleSubmit}
+						>
+							Save
+						</Button>
+						<Button
+							startIcon={<Delete></Delete>}
+							color="secondary"
+							variant="outlined"
+							onClick={() => handleDelete()}
+						>
+							Delete
+						</Button>
+					</Box>
+				</Box>
+			</Grid>
+		</Container>
 	);
 }
