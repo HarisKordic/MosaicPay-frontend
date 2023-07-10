@@ -4,7 +4,7 @@ import {
 	Alert,
 	Box,
 	Button,
-	FormControl,
+	Container,
 	Grid,
 	TextField,
 	Typography,
@@ -13,7 +13,8 @@ import { Cancel, Save, Upload } from "@mui/icons-material";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import * as yup from "yup";
-import { getUser, postNewAccount } from "../api";
+import { getUser, postNewAccount } from "../../src/app/api";
+import AccountMenu from "@/app/components/AccountMenu";
 
 export default function NewAccount() {
 	const router = useRouter();
@@ -86,17 +87,24 @@ export default function NewAccount() {
 	};
 
 	return (
-		<FormControl component="form" onSubmit={handleSubmit}>
+		<Container disableGutters>
+			<Box display={"flex"} justifyContent={"center"} mb={3}>
+				<AccountMenu></AccountMenu>
+			</Box>
 			<Grid
 				display="flex"
 				flexDirection="column"
 				width="100%"
 				height="100%"
 				justifyContent="center"
-				padding={5}
 			>
 				<Box>
-					<Typography variant="h4" component="h4" sx={{ textAlign: "center" }}>
+					<Typography
+						variant="h4"
+						component="h4"
+						mb={3}
+						sx={{ textAlign: "center" }}
+					>
 						Add account
 					</Typography>
 				</Box>
@@ -186,6 +194,6 @@ export default function NewAccount() {
 					Account successfuly created!
 				</Alert>
 			</Grid>
-		</FormControl>
+		</Container>
 	);
 }
