@@ -14,6 +14,7 @@ export default function Media(props: IProps) {
 	const [maxUploadNumReached, setMaxUploadNumReached] = useState(false);
 
 	const [isSavingLoading, setIsSavingLoading] = useState(false);
+	const [url, setUrl] = useState(props.url);
 
 	const handleFileUpload = async (event: any) => {
 		console.log(event.target.files);
@@ -29,11 +30,8 @@ export default function Media(props: IProps) {
 			form.append("user", props.userId);
 			form.append("account", props.accountId);
 			const result = await postDocument(form);
-			console.log(form);
-
-			console.log(result);
-
-			//location.reload();
+			//@ts-ignore
+			setUrl(result.data?.url);
 		} catch (error: any) {
 			if (error.response.status === 405) {
 				setMaxUploadNumReached(true);
@@ -84,13 +82,7 @@ export default function Media(props: IProps) {
 				}}
 			>
 				<ImageListItem key={1}>
-					<img
-						src={
-							"https://youthscape.ams3.cdn.digitaloceanspaces.com/images/16723620780107.remini-enhanced.jpg"
-						}
-						alt={"1"}
-						loading="lazy"
-					/>
+					<img src={url} alt={"asset"} loading="lazy" />
 				</ImageListItem>
 			</ImageList>
 		</Box>

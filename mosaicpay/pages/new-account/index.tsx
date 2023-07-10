@@ -136,7 +136,12 @@ export default function NewAccount() {
 					/>
 
 					<Box display={"flex"} justifyContent={"center"} sx={{ mt: 5 }}>
-						<Media userId="1" accountId="1" type="jpg"></Media>
+						<Media
+							url="http://localhost:8000/media/storage/Portret_Info_Studio_01_Xoj6jmg.jpg"
+							userId="1"
+							accountId="1"
+							type="jpg"
+						></Media>
 					</Box>
 					<Box
 						display={"flex"}
