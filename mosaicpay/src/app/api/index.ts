@@ -85,3 +85,8 @@ export const getAccountsTransactions = () =>
 			withCredentials: true,
 		})
 		.then((res) => res.data);
+export const postDocument = (document: any) =>
+	axios.post(`${rootRoute}document/`, document, {
+		withCredentials: true,
+		headers: { "Content-Type": "multpart/form-data" },
+	});

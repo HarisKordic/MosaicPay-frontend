@@ -15,6 +15,7 @@ import { useState } from "react";
 import * as yup from "yup";
 import { getUser, postNewAccount } from "../../src/app/api";
 import AccountMenu from "@/app/components/AccountMenu";
+import Media from "@/app/components/Media";
 
 export default function NewAccount() {
 	const router = useRouter();
@@ -81,11 +82,6 @@ export default function NewAccount() {
 			} catch (error) {}
 		}
 	};
-
-	const fileData = {
-		img: "https://youthscape.ams3.cdn.digitaloceanspaces.com/images/16723620780107.remini-enhanced.jpg",
-	};
-
 	return (
 		<Container disableGutters>
 			<Box display={"flex"} justifyContent={"center"} mb={3}>
@@ -139,20 +135,8 @@ export default function NewAccount() {
 						helperText={validationErrors.balance}
 					/>
 
-					<Box width={"100%"} sx={{ mt: 5 }}>
-						<img
-							width={"100%"}
-							height={"100%"}
-							src={`${fileData.img}`}
-							//alt={//fileData.title}
-							loading="lazy"
-						/>
-					</Box>
-					<Box display={"flex"} justifyContent={"space-between"} sx={{ mt: 5 }}>
-						<Typography variant="h6" component={"h6"}>
-							Upload file
-						</Typography>
-						<Upload fontSize="large" color="secondary"></Upload>
+					<Box display={"flex"} justifyContent={"center"} sx={{ mt: 5 }}>
+						<Media userId="1" accountId="1" type="jpg"></Media>
 					</Box>
 					<Box
 						display={"flex"}
