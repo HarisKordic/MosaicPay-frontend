@@ -4,9 +4,50 @@ import AccountMenu from "../../src/app/components/AccountMenu";
 import { Add } from "@mui/icons-material";
 import MainCard from "@/app/components/MainCard";
 import { useRouter } from "next/router";
+import { getAccountsTransactions } from "@/app/api";
+import { useEffect, useState } from "react";
+import { stat } from "fs";
 
 export default function AccountsTransactions() {
 	const router = useRouter();
+	const [accountsTransactions, setAccountsTransactions] = useState<
+		dtoAccountTransaction[]
+	>([]);
+
+	const convertTransactionState = (state: number): string => {
+		switch (state) {
+			case 1:
+				return "Draft";
+			case 2:
+				return "Pending";
+			case 3:
+				return "Processed";
+			case 4:
+				return "Failed";
+		}
+		return "";
+	};
+	const fetchData = async () => {
+		try {
+			const data = await getAccountsTransactions();
+
+			const updatedTransactions = data.map((item: any) => ({
+				accountName: item.account.name,
+				transactionAmount: item.amount,
+				transactionState: convertTransactionState(item.transaction_state),
+				transactionType: item.type,
+			}));
+
+			setAccountsTransactions(updatedTransactions);
+		} catch (error) {
+			router.push("/404");
+		}
+	};
+
+	useEffect(() => {
+		fetchData();
+	}, []);
+
 	return (
 		<Container disableGutters>
 			<Box display={"flex"} justifyContent={"center"}>
@@ -38,9 +79,14 @@ export default function AccountsTransactions() {
 						overflowY: "auto",
 					}}
 				>
-					<MainCard></MainCard>
-					<MainCard></MainCard>
-					<MainCard></MainCard>
+					{accountsTransactions.map((item: dtoAccountTransaction) => (
+						<MainCard
+							accountName={item.accountName}
+							transactionAmount={item.transactionAmount}
+							transactionType={item.transactionType}
+							transactionState={item.transactionState}
+						></MainCard>
+					))}
 				</Box>
 
 				<Box

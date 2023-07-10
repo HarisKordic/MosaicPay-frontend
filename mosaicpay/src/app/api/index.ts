@@ -78,3 +78,10 @@ export const deleteTransaction = (
 			withCredentials: true,
 		})
 		.then((res) => res.data);
+
+export const getAccountsTransactions = () =>
+	axios
+		.get(`${rootRoute}transaction`, {
+			withCredentials: true,
+		})
+		.then((res) => res.data);
