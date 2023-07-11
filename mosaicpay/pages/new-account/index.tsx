@@ -9,7 +9,7 @@ import {
 	TextField,
 	Typography,
 } from "@mui/material";
-import { Cancel, Save, Upload } from "@mui/icons-material";
+import { Cancel, Save } from "@mui/icons-material";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import * as yup from "yup";
@@ -23,6 +23,12 @@ export default function NewAccount() {
 	const [balance, setBalance] = useState("");
 	const [validationErrors, setValidationErrors] = useState(Object);
 	const [showAlert, setShowAlert] = useState(false);
+	const [userId, setUserId] = useState(0);
+	const [accountId, setAccountId] = useState();
+	const [type, setType] = useState("");
+	const [url, setUrl] = useState();
+	const [documentId, setDocumentId] = useState(0);
+	const [disableFileUpload, setDisableFileUpload] = useState(true);
 
 	const validationSchema = yup.object().shape({
 		accountName: yup
@@ -73,12 +79,14 @@ export default function NewAccount() {
 					balance: Number.parseFloat(balance),
 					user: user?.user_id,
 				};
-				await postNewAccount(account);
-				setShowAlert(true);
+				const result = await postNewAccount(account);
 
-				setTimeout(() => {
-					router.push("/home");
-				}, 2000);
+				console.log(result);
+				setShowAlert(true);
+				setDisableFileUpload(false);
+				setUserId(result.user);
+				setDocumentId(0);
+				setAccountId(result.account_id);
 			} catch (error) {}
 		}
 	};
@@ -135,12 +143,17 @@ export default function NewAccount() {
 						helperText={validationErrors.balance}
 					/>
 
-					<Box display={"flex"} justifyContent={"center"} sx={{ mt: 5 }}>
+					<Box
+						display={`${disableFileUpload ? "none" : "block"}`}
+						justifyContent={"center"}
+						sx={{ mt: 5 }}
+					>
 						<Media
-							url="http://localhost:8000/media/storage/Portret_Info_Studio_01_Xoj6jmg.jpg"
-							userId="1"
-							accountId="1"
-							type="pdf"
+							accountId={accountId}
+							userId={userId?.toString()}
+							url={url}
+							type={type}
+							documentId={documentId}
 						></Media>
 					</Box>
 					<Box
@@ -165,23 +178,23 @@ export default function NewAccount() {
 							Cancel
 						</Button>
 					</Box>
+					<Alert
+						sx={{ mt: 5, display: showAlert ? "flex" : "none" }}
+						action={
+							<Button
+								color="success"
+								size="small"
+								onClick={() => setShowAlert(false)}
+							>
+								X
+							</Button>
+						}
+						onClose={() => setShowAlert(false)}
+						severity="success"
+					>
+						Account successfuly created!
+					</Alert>
 				</Box>
-				<Alert
-					sx={{ mt: 5, display: showAlert ? "flex" : "none" }}
-					action={
-						<Button
-							color="success"
-							size="small"
-							onClick={() => setShowAlert(false)}
-						>
-							X
-						</Button>
-					}
-					onClose={() => setShowAlert(false)}
-					severity="success"
-				>
-					Account successfuly created!
-				</Alert>
 			</Grid>
 		</Container>
 	);

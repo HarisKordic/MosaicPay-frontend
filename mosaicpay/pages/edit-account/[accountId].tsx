@@ -58,11 +58,9 @@ export default function NewAccount() {
 				console.log(document);
 			}
 		} catch (error: any) {
-			if (error.response.statusText === "Not Found") {
+			if (error.response.status === 500) {
 				return;
 			}
-
-			router.push("/404");
 		}
 	};
 

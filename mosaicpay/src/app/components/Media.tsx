@@ -3,8 +3,6 @@ import { useEffect, useState } from "react";
 import UploadOutlinedIcon from "@mui/icons-material/UploadOutlined";
 import LoadingButton from "@mui/lab/LoadingButton";
 import { postDocument, putDocument } from "../api";
-import Document from "next/document";
-import { useRouter } from "next/router";
 
 interface IProps {
 	accountId: string;
