@@ -5,17 +5,20 @@ import CardMedia from "@mui/material/CardMedia";
 import Typography from "@mui/material/Typography";
 import { Box, CardHeader, Chip, IconButton } from "@mui/material";
 import Carousel from "react-material-ui-carousel";
+import { useRouter } from "next/router";
 
 interface IProps {
 	accountName: string;
 	transactionAmount: string;
 	transactionType: string;
 	transactionState: string;
+	transactionId: string;
+	accountId: string;
 }
 
 export default function MainCard(props: IProps) {
 	var items = ["https://mui.com/static/images/cards/contemplative-reptile.jpg"];
-
+	const router = useRouter();
 	function Item(props: any) {
 		return <CardMedia component="img" height="140" image={props.item} />;
 	}
@@ -58,10 +61,22 @@ export default function MainCard(props: IProps) {
 					width={"100%"}
 					justifyContent={"space-between"}
 				>
-					<IconButton aria-label="add-account" size="large" color="secondary">
+					<IconButton
+						onClick={() => router.push(`/edit-account/${props.accountId}`)}
+						aria-label="add-account"
+						size="large"
+						color="secondary"
+					>
 						<Typography fontSize={14}>View account</Typography>
 					</IconButton>
-					<IconButton aria-label="add-account" size="large" color="primary">
+					<IconButton
+						onClick={() =>
+							router.push(`/edit-transaction/${props.transactionId}`)
+						}
+						aria-label="add-account"
+						size="large"
+						color="primary"
+					>
 						<Typography fontSize={14}>View transaction</Typography>
 					</IconButton>
 				</Box>

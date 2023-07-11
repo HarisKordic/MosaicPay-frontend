@@ -36,6 +36,8 @@ export default function AccountsTransactions() {
 				transactionAmount: item.amount,
 				transactionState: convertTransactionState(item.transaction_state),
 				transactionType: item.type,
+				transactionId: item.transaction_id,
+				accountId: item.account.account_id,
 			}));
 
 			setAccountsTransactions(updatedTransactions);
@@ -79,14 +81,23 @@ export default function AccountsTransactions() {
 						overflowY: "auto",
 					}}
 				>
-					{accountsTransactions.map((item: dtoAccountTransaction) => (
-						<MainCard
-							accountName={item.accountName}
-							transactionAmount={item.transactionAmount}
-							transactionType={item.transactionType}
-							transactionState={item.transactionState}
-						></MainCard>
-					))}
+					{accountsTransactions.length > 0 ? (
+						accountsTransactions.map((item: dtoAccountTransaction) => (
+							<MainCard
+								accountName={item.accountName}
+								transactionAmount={item.transactionAmount}
+								transactionType={item.transactionType}
+								transactionState={item.transactionState}
+								transactionId={item.transactionId}
+								accountId={item.accountId}
+							></MainCard>
+						))
+					) : (
+						<Typography>
+							Oops... It seems you don't have any transactions yet. Make your
+							first one by clicking on the button "Add transaction"
+						</Typography>
+					)}
 				</Box>
 
 				<Box
