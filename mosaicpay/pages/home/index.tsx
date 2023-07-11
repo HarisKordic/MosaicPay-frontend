@@ -9,18 +9,22 @@ import {
 } from "@mui/material";
 import AccountInfoCard from "../../src/app/components/AccountInfoCard";
 import { useRouter } from "next/navigation";
-import { getUserAccounts } from "../../src/app/api";
+import { getUser, getUserAccounts } from "../../src/app/api";
 import { useEffect, useState } from "react";
 import AccountMenu from "../../src/app/components/AccountMenu";
 
 export default function Home() {
 	const router = useRouter();
 	const [lastAccoundAdded, setLastAccountAdded] = useState(Object);
+	const [username, setUsername] = useState("");
 
 	let data;
 	const getData = async () => {
 		data = await getUserAccounts();
+		const user = await getUser();
+		console.log(user);
 		setLastAccountAdded(data[data.length - 1]);
+		setUsername(user.first_name);
 	};
 	useEffect(() => {
 		getData();
@@ -45,7 +49,9 @@ export default function Home() {
 					}}
 				>
 					<Typography variant="h4" component={"h4"} fontWeight={"bold"}>
-						Hello, Amanda
+						Hello,{" "}
+						{username?.substring(0, 1).toUpperCase() +
+							username?.substring(1, username.length)}
 					</Typography>
 				</Box>
 				<Box sx={{ mb: 5 }}>
