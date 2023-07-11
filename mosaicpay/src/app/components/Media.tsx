@@ -40,7 +40,6 @@ export default function Media(props: IProps) {
 				result = await putDocument(documentId?.toString(), form);
 			}
 
-			console.log(result);
 			setDocumentId(result.data?.document_id);
 			setUrl(result.data?.url);
 			setType(result.data?.type);

@@ -24,7 +24,6 @@ export default function AccountMenu() {
 		setAnchorEl(null);
 	};
 	const handleLogout = async () => {
-		console.log(window.document.cookie);
 		const res = await logout();
 		if (res === "Logout successfull!") router.push("/login");
 	};
@@ -70,7 +69,7 @@ export default function AccountMenu() {
 				transformOrigin={{ horizontal: "right", vertical: "top" }}
 				anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
 			>
-				<MenuItem onClick={handleClose}>
+				<MenuItem onClick={() => router.push("/home")}>
 					<Avatar /> Profile
 				</MenuItem>
 				<Divider />

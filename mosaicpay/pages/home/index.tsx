@@ -22,7 +22,6 @@ export default function Home() {
 	const getData = async () => {
 		data = await getUserAccounts();
 		const user = await getUser();
-		console.log(user);
 		setLastAccountAdded(data[data.length - 1]);
 		setUsername(user.first_name);
 	};
