@@ -37,8 +37,7 @@ export default function NewAccount() {
 	const [userId, setUserId] = useState(0);
 	const [type, setType] = useState("");
 	const [url, setUrl] = useState();
-	const [isInitial, setIsInitial] = useState(false);
-	const [documentId, setDocumentId] = useState();
+	const [documentId, setDocumentId] = useState(0);
 	const getAccountData = async () => {
 		//@ts-ignore
 		const accountData = await getAccount(Number.parseInt(accountId));
@@ -49,18 +48,17 @@ export default function NewAccount() {
 		try {
 			if (accountId) {
 				data = await getAccountData();
+				setAccountName(data?.name);
+				setBalance(data?.balance.toString());
 				setUserId(data.user);
-				console.log(userId);
 				const document: any = await getDocument(accountId);
 				setType(document.type);
-				setAccountName(data?.name);
 				setUrl(document.url);
 				setDocumentId(document.document_id);
-				setBalance(data?.balance.toString());
+				console.log(document);
 			}
 		} catch (error: any) {
 			if (error.response.statusText === "Not Found") {
-				setIsInitial(true);
 				return;
 			}
 
@@ -70,7 +68,7 @@ export default function NewAccount() {
 
 	useEffect(() => {
 		setStates();
-	}, [accountId]);
+	}, [accountId, documentId]);
 
 	const validationSchema = yup.object().shape({
 		accountName: yup
@@ -203,7 +201,6 @@ export default function NewAccount() {
 							userId={userId?.toString()}
 							url={url}
 							type={type}
-							isInitial={isInitial}
 							documentId={documentId}
 						></Media>
 					</Box>

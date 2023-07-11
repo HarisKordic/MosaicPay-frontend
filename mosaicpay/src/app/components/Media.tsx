@@ -12,15 +12,13 @@ interface IProps {
 	url?: string;
 	type: string;
 	isInitial?: boolean;
-	documentId?: string;
+	documentId?: number;
 }
 export default function Media(props: IProps) {
 	const [maxUploadNumReached, setMaxUploadNumReached] = useState(false);
-	const router = useRouter();
 	const [isSavingLoading, setIsSavingLoading] = useState(false);
 	const [url, setUrl] = useState(props.url);
 	const [type, setType] = useState(props.type);
-	const [isInitial, setIsInitial] = useState(props.isInitial);
 	const [documentId, setDocumentId] = useState(props.documentId);
 	const [userId, setUserId] = useState(props.userId);
 
@@ -31,18 +29,21 @@ export default function Media(props: IProps) {
 		setIsSavingLoading(true);
 
 		try {
-			console.log(userId);
 			let form = new FormData();
 			form.append("url", file[0]);
 			form.append("type", file[0].type.split("/")[1]);
 			form.append("user", userId);
 			form.append("account", props.accountId);
 
-			let result = await postDocument(form);
-			//isInitial
-			//	? (result = await postDocument(form))
-			//	: (result = await putDocument(documentId, form));
+			let result;
+			if (documentId === 0) {
+				result = await postDocument(form);
+			} else {
+				result = await putDocument(documentId?.toString(), form);
+			}
 
+			console.log(result);
+			setDocumentId(result.data?.document_id);
 			setUrl(result.data?.url);
 			setType(result.data?.type);
 		} catch (error: any) {
@@ -57,10 +58,9 @@ export default function Media(props: IProps) {
 	useEffect(() => {
 		setUrl(props?.url);
 		setType(props?.type);
-		setIsInitial(props?.isInitial);
 		setDocumentId(props.documentId);
 		setUserId(props.userId);
-	}, [props.type, props.url, props.isInitial, props.documentId, props.userId]);
+	}, [props.type, props.url, props.documentId, props.userId]);
 
 	return (
 		<Box
