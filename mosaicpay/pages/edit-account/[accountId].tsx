@@ -13,10 +13,17 @@ import {
 import { Cancel, Delete, Garage, Save, Upload } from "@mui/icons-material";
 import { useEffect, useState } from "react";
 import * as yup from "yup";
-import { deleteAccount, getAccount, getUser } from "../../src/app/api";
+import {
+	deleteAccount,
+	getAccount,
+	getDocument,
+	getUser,
+	putAccount,
+} from "../../src/app/api";
 import { useRouter } from "next/router";
 import AccountInfoCard from "@/app/components/AccountInfoCard";
 import AccountMenu from "@/app/components/AccountMenu";
+import Media from "@/app/components/Media";
 
 export default function NewAccount() {
 	const router = useRouter();
@@ -27,7 +34,11 @@ export default function NewAccount() {
 	const [validationErrors, setValidationErrors] = useState(Object);
 	const [showAlert, setShowAlert] = useState(false);
 	const [alertMessage, setAlertMessage] = useState("");
-
+	const [userId, setUserId] = useState(0);
+	const [type, setType] = useState("");
+	const [url, setUrl] = useState();
+	const [isInitial, setIsInitial] = useState(false);
+	const [documentId, setDocumentId] = useState();
 	const getAccountData = async () => {
 		//@ts-ignore
 		const accountData = await getAccount(Number.parseInt(accountId));
@@ -36,10 +47,23 @@ export default function NewAccount() {
 	let data: dtoAccount;
 	const setStates = async () => {
 		try {
-			if (accountId) data = await getAccountData();
-			setAccountName(data?.name);
-			setBalance(data?.balance.toString());
-		} catch (error) {
+			if (accountId) {
+				data = await getAccountData();
+				setUserId(data.user);
+				console.log(userId);
+				const document: any = await getDocument(accountId);
+				setType(document.type);
+				setAccountName(data?.name);
+				setUrl(document.url);
+				setDocumentId(document.document_id);
+				setBalance(data?.balance.toString());
+			}
+		} catch (error: any) {
+			if (error.response.statusText === "Not Found") {
+				setIsInitial(true);
+				return;
+			}
+
 			router.push("/404");
 		}
 	};
@@ -93,13 +117,12 @@ export default function NewAccount() {
 		event.preventDefault();
 		if (await validateForm()) {
 			try {
-				const user: any = await getUser();
 				let account: dtoAccountUpdate = {
 					name: accountName,
 					balance: Number.parseFloat(balance),
 				};
 				//@ts-ignore
-				await putNewAccount(Number.parseInt(accountId), account);
+				await putAccount(Number.parseInt(accountId), account);
 				setShowAlert(true);
 				setAlertMessage("Account successfuly updated!");
 				setStates();
@@ -114,10 +137,6 @@ export default function NewAccount() {
 			setShowAlert(true);
 			setAlertMessage("Account is successfuly deleted!");
 		} catch (error) {}
-	};
-
-	const fileData = {
-		img: "https://youthscape.ams3.cdn.digitaloceanspaces.com/images/16723620780107.remini-enhanced.jpg",
 	};
 
 	return (
@@ -178,20 +197,15 @@ export default function NewAccount() {
 						helperText={validationErrors.balance}
 					/>
 
-					<Box width={"100%"} sx={{ mt: 5 }}>
-						<img
-							width={"100%"}
-							height={"100%"}
-							src={`${fileData.img}`}
-							//alt={//fileData.title}
-							loading="lazy"
-						/>
-					</Box>
-					<Box display={"flex"} justifyContent={"space-between"} sx={{ mt: 5 }}>
-						<Typography variant="h6" component={"h6"}>
-							Upload/change file
-						</Typography>
-						<Upload fontSize="large" color="secondary"></Upload>
+					<Box display={"flex"} justifyContent={"center"} sx={{ mt: 5 }}>
+						<Media
+							accountId={accountId}
+							userId={userId?.toString()}
+							url={url}
+							type={type}
+							isInitial={isInitial}
+							documentId={documentId}
+						></Media>
 					</Box>
 					<Alert
 						sx={{ mt: 5, display: showAlert ? "flex" : "none" }}
@@ -218,7 +232,7 @@ export default function NewAccount() {
 							startIcon={<Save></Save>}
 							color="secondary"
 							variant="outlined"
-							onClick={handleSubmit}
+							onClick={(e: any) => handleSubmit(e)}
 						>
 							Save
 						</Button>

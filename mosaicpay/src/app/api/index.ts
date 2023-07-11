@@ -86,7 +86,22 @@ export const getAccountsTransactions = () =>
 		})
 		.then((res) => res.data);
 export const postDocument = (document: any) =>
-	axios.post(`${rootRoute}document/`, document, {
-		withCredentials: true,
-		headers: { "Content-Type": "multpart/form-data" },
-	});
+	axios
+		.post(`${rootRoute}document/`, document, {
+			withCredentials: true,
+			headers: { "Content-Type": "multpart/form-data" },
+		})
+		.catch((res: any) => res.data);
+export const putDocument = (documentId: string | undefined, document: any) =>
+	axios
+		.put(`${rootRoute}document/${documentId}/`, document, {
+			withCredentials: true,
+			headers: { "Content-Type": "multpart/form-data" },
+		})
+		.catch((res: any) => res.data);
+export const getDocument = (accountId: string | string[]) =>
+	axios
+		.get(`${rootRoute}document/${accountId}`, {
+			withCredentials: true,
+		})
+		.then((res: any) => res.data);
