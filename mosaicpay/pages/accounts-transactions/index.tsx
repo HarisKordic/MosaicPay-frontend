@@ -38,9 +38,12 @@ export default function AccountsTransactions() {
 				transactionType: item.type,
 				transactionId: item.transaction_id,
 				accountId: item.account.account_id,
+				documentUrl: item.document.url,
+				documentType: item.document.type,
 			}));
 
 			setAccountsTransactions(updatedTransactions);
+			console.log(updatedTransactions);
 		} catch (error) {
 			router.push("/404");
 		}
@@ -90,6 +93,8 @@ export default function AccountsTransactions() {
 								transactionState={item.transactionState}
 								transactionId={item.transactionId}
 								accountId={item.accountId}
+								documentUrl={item.documentUrl}
+								documentType={item.documentType}
 							></MainCard>
 						))
 					) : (

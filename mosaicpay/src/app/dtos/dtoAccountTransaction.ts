@@ -5,6 +5,8 @@ class dtoAccountTransaction {
 	transactionState: string;
 	accountId: string;
 	transactionId: string;
+	documentUrl: string;
+	documentType: string;
 
 	constructor() {
 		this.accountName = "";
@@ -13,5 +15,7 @@ class dtoAccountTransaction {
 		this.transactionState = "";
 		this.transactionId = "";
 		this.accountId = "";
+		this.documentUrl = "";
+		this.documentType = "";
 	}
 }

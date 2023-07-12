@@ -3,7 +3,7 @@ import CardActions from "@mui/material/CardActions";
 import CardContent from "@mui/material/CardContent";
 import CardMedia from "@mui/material/CardMedia";
 import Typography from "@mui/material/Typography";
-import { Box, CardHeader, Chip, IconButton } from "@mui/material";
+import { Box, Button, CardHeader, Chip, IconButton } from "@mui/material";
 import Carousel from "react-material-ui-carousel";
 import { useRouter } from "next/router";
 
@@ -14,13 +14,30 @@ interface IProps {
 	transactionState: string;
 	transactionId: string;
 	accountId: string;
+	documentUrl: string;
+	documentType: string;
 }
 
 export default function MainCard(props: IProps) {
-	var items = ["https://mui.com/static/images/cards/contemplative-reptile.jpg"];
 	const router = useRouter();
 	function Item(props: any) {
-		return <CardMedia component="img" height="140" image={props.item} />;
+		return props.type != "pdf" ? (
+			<CardMedia component="img" height="140" image={props.item} />
+		) : (
+			<Box
+				display={"flex"}
+				justifyContent={"center"}
+				paddingTop={2}
+				paddingLeft={1}
+			>
+				<Button
+					color="secondary"
+					onClick={() => window.open(props.item, "_blank")}
+				>
+					View PDF
+				</Button>
+			</Box>
+		);
 	}
 
 	return (
@@ -30,16 +47,18 @@ export default function MainCard(props: IProps) {
 				subheader={props.transactionState || "Draft"}
 			></CardHeader>
 			<Carousel>
-				{items.map((item, i) => (
-					<Item key={i} item={item} />
-				))}
+				<Item
+					key="Document-1"
+					item={`http://localhost:8000/${props.documentUrl}`}
+					type={props.documentType}
+				/>
 			</Carousel>
 
 			<CardContent>
 				<Typography variant="body2" color="text.secondary">
 					Amount: {props.transactionAmount || "1000"} {" $"}
 				</Typography>
-				<Typography variant="body2" color="text.secondary">
+				<Typography variant="body2" color="text.secondary" mt={1}>
 					Transaction type:{" "}
 					{props.transactionType === "D" ? (
 						<Chip size="small" color="primary" label="Debit"></Chip>
