@@ -55,7 +55,6 @@ export default function NewAccount() {
 				setType(document.type);
 				setUrl(document.url);
 				setDocumentId(document.document_id);
-				console.log(document);
 			}
 		} catch (error: any) {
 			if (error.response.status === 500) {

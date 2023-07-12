@@ -43,7 +43,6 @@ export default function AccountsTransactions() {
 			}));
 
 			setAccountsTransactions(updatedTransactions);
-			console.log(updatedTransactions);
 		} catch (error) {
 			router.push("/404");
 		}

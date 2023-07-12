@@ -81,7 +81,6 @@ export default function NewAccount() {
 				};
 				const result = await postNewAccount(account);
 
-				console.log(result);
 				setShowAlert(true);
 				setDisableFileUpload(false);
 				setUserId(result.user);

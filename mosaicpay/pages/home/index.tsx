@@ -25,7 +25,6 @@ export default function Home() {
 		const user = await getUser();
 		setLastAccountAdded(data[data.length - 1]);
 		setUsername(user.first_name);
-		console.log(lastAccoundAdded);
 	};
 	useEffect(() => {
 		getData();
