@@ -5,6 +5,7 @@ import CardActions from "@mui/material/CardActions";
 import CardContent from "@mui/material/CardContent";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
+import { useRouter } from "next/router";
 
 const bull = (
 	<Box
@@ -18,8 +19,10 @@ const bull = (
 interface IAccountInfoCardProps {
 	balance: string;
 	date: string;
+	accountId?: string;
 }
 export default function AccountInfoCard(props: IAccountInfoCardProps) {
+	const router = useRouter();
 	return (
 		<Card elevation={14} sx={{ width: "100%" }}>
 			<CardContent>
@@ -36,6 +39,16 @@ export default function AccountInfoCard(props: IAccountInfoCardProps) {
 				<Typography sx={{ mb: 1.5 }} color="text.secondary">
 					{props.date || "no date information"}
 				</Typography>
+				<Box display={"flex"} justifyContent={"center"} mt={3}>
+					<Button
+						onClick={() => router.push(`/edit-account/${props.accountId}`)}
+						size="small"
+						color="secondary"
+						variant="outlined"
+					>
+						View account
+					</Button>
+				</Box>
 			</CardContent>
 		</Card>
 	);
