@@ -12,6 +12,7 @@ import { useRouter } from "next/navigation";
 import { getUser, getUserAccounts } from "../../src/app/api";
 import { useEffect, useState } from "react";
 import AccountMenu from "../../src/app/components/AccountMenu";
+import { TryRounded } from "@mui/icons-material";
 
 export default function Home() {
 	const router = useRouter();
@@ -59,6 +60,7 @@ export default function Home() {
 						balance={lastAccoundAdded?.balance}
 						date={new Date().toDateString()}
 						accountId={lastAccoundAdded.account_id}
+						showDetail={true}
 					></AccountInfoCard>
 				</Box>
 				<Box

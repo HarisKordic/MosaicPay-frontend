@@ -158,6 +158,7 @@ export default function NewAccount() {
 					<AccountInfoCard
 						balance={balance}
 						date={new Date().toDateString()}
+						showDetail={false}
 					></AccountInfoCard>
 				</Box>
 				<Box width="100%" padding={2}>

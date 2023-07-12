@@ -20,6 +20,7 @@ interface IAccountInfoCardProps {
 	balance: string;
 	date: string;
 	accountId?: string;
+	showDetail?: boolean;
 }
 export default function AccountInfoCard(props: IAccountInfoCardProps) {
 	const router = useRouter();
@@ -41,6 +42,7 @@ export default function AccountInfoCard(props: IAccountInfoCardProps) {
 				</Typography>
 				<Box display={"flex"} justifyContent={"center"} mt={3}>
 					<Button
+						sx={{ display: `${props.showDetail ? "block" : "none"}` }}
 						onClick={() => router.push(`/edit-account/${props.accountId}`)}
 						size="small"
 						color="secondary"
